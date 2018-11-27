@@ -1,3 +1,3 @@
-INSERT INTO institution (date_of_birth, first_name, last_name, title, institute) VALUES (TIMESTAMP '1970-01-01 15:36:38', 'Joze', 'Hafner', 'professor', 'University of Ljubljana');
-INSERT INTO institution (date_of_birth, first_name, last_name, title, institute) VALUES (TIMESTAMP '1980-03-17 15:36:38', 'Franci', 'Dolenc', 'researcher', 'University of Ljubljana');
-INSERT INTO institution (date_of_birth, first_name, last_name, title, institute) VALUES (TIMESTAMP '1998-11-29 15:36:38', 'Janez', 'Hafner', 'student', 'University of Ljubljana');
+INSERT INTO institution (institute, address, post, country, email) VALUES  ('University of Ljubljana', 'Kongresni trg 12', 'Ljubljana', 'Slovenia', 'University of Ljubljana');
+INSERT INTO institution (institute, address, post, country, email) VALUES  ('University of Somethin', 'Kongresni trg 13', 'Ljubljana', 'Slovenia', 'University of Ljubljana');
+INSERT INTO institution (institute, address, post, country, email) VALUES  ('University of Koper', 'Kongresni trg 14', 'Ljubljana', 'Slovenia', 'University of Ljubljana');
