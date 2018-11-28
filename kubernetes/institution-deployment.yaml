@@ -13,7 +13,7 @@ spec:
         app: institution
     spec:
       containers:
-      - image: ajugo/smartarticle-institutions:0.2
+      - image: ajugo/smartarticle-institutions:0.3
         name: institution
         env:
         - name: KUMULUZEE_DISCOVERY_CLUSTER

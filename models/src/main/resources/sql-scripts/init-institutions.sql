@@ -1,3 +1,3 @@
-INSERT INTO institution (institute, address, post, country, email) VALUES  ('University of Ljubljana', 'Kongresni trg 12', 'Ljubljana', 'Slovenia', 'University of Ljubljana');
-INSERT INTO institution (institute, address, post, country, email) VALUES  ('University of Somethin', 'Kongresni trg 13', 'Ljubljana', 'Slovenia', 'University of Ljubljana');
-INSERT INTO institution (institute, address, post, country, email) VALUES  ('University of Koper', 'Kongresni trg 14', 'Ljubljana', 'Slovenia', 'University of Ljubljana');
+INSERT INTO institution (institute, address, post, country, email) VALUES  ('University of Ljubljana', 'Kongresni trg 12', 'Ljubljana', 'Slovenia', 'somethin@gmail.com');
+INSERT INTO institution (institute, address, post, country, email) VALUES  ('University of Somethin', 'Kongresni trg 13', 'Ljubljana', 'Slovenia', 'somethin1@gmail.com');
+INSERT INTO institution (institute, address, post, country, email) VALUES  ('University of Koper', 'Kongresni trg 14', 'Ljubljana', 'Slovenia', 'somethin2@gmail.com');
