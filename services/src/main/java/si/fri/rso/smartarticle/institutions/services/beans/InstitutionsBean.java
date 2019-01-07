@@ -11,6 +11,7 @@ import si.fri.rso.smartarticle.institutions.services.configuration.AppProperties
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.InternalServerErrorException;
@@ -44,7 +45,7 @@ public class InstitutionsBean {
 
     @Inject
     @DiscoverService("smartarticle-accounts")
-    private Optional<String> baseUrl;
+    private Provider<Optional<String>> institutionBaseProvider;
 
     @PostConstruct
     private void init() {
@@ -98,10 +99,12 @@ public class InstitutionsBean {
     }
 
     public List<Account> getAccounts(Integer institutionId) {
+        Optional<String> baseUrl = institutionBaseProvider.get();
         if (baseUrl.isPresent()) {
             try {
+                String link = baseUrl.get();
                 return httpClient
-                        .target(baseUrl + "/v1/accounts?where=instituteId:EQ:" + institutionId)
+                        .target(link + "/v1/accounts?where=instituteId:EQ:" + institutionId)
                         .request().get(new GenericType<List<Account>>() {
                         });
             } catch (WebApplicationException | ProcessingException e) {
