@@ -5,7 +5,7 @@ import com.kumuluz.ee.discovery.annotations.RegisterService;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-@RegisterService("smartarticle-instituions")
+@RegisterService
 @ApplicationPath("/v1")
 public class InstitutionApplication extends Application {
 }

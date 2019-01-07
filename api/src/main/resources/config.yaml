@@ -1,5 +1,5 @@
 kumuluzee:
-  name: rso-institutions
+  name: smartarticle-instituions
   env:
     name: dev
   version: 1.0.0
@@ -9,16 +9,16 @@ kumuluzee:
       port: 8081
   datasources:
     - jndi-name: jdbc/InstitutionsDS
-      connection-url: jdbc:postgresql://172.17.0.1:5433/institution
+      connection-url: jdbc:postgresql://159.122.187.161:31463/institution
       username: dbuser
       password: postgres
       max-pool-size: 20
   config:
     etcd:
-      hosts: http://172.17.0.1:2379
+      hosts: http://159.122.187.161:32428
     discovery:
       etcd:
-        hosts: http://172.17.0.1:2379
+        hosts: http://159.122.187.161:32428
 app-properties:
   external-services:
     enabled: true
