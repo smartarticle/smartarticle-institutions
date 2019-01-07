@@ -1,7 +1,11 @@
 package si.fri.rso.smartarticle.institutions.models.entities;
 
+import si.fri.rso.smartarticle.institutions.models.dtos.Account;
+
 import javax.persistence.*;
 import java.time.Instant;
+
+import java.util.List;
 
 @Entity(name = "institution")
 @NamedQueries(value =
@@ -23,6 +27,9 @@ public class Institution {
     private String country;
 
     private String email;
+
+    @Transient
+    private List<Account> accounts;
 
 
     public Integer getId() {
@@ -67,6 +74,14 @@ public class Institution {
 
     public void setEmail(Instant dateOfBirth) {
         this.email = email;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 
 }

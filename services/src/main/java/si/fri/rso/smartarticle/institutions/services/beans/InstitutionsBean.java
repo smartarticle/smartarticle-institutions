@@ -4,6 +4,7 @@ package si.fri.rso.smartarticle.institutions.services.beans;
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
+import si.fri.rso.smartarticle.institutions.models.dtos.Account;
 import si.fri.rso.smartarticle.institutions.models.entities.Institution;
 import si.fri.rso.smartarticle.institutions.services.configuration.AppProperties;
 
@@ -12,11 +13,17 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.ProcessingException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.Optional;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 
 
 @RequestScoped
@@ -33,12 +40,21 @@ public class InstitutionsBean {
     @Inject
     private InstitutionsBean institutionsBean;
 
-    @PostConstruct
-    private void init() {}
+    private Client httpClient;
 
     @Inject
-    @DiscoverService("smartarticle-users")
+    @DiscoverService("smartarticle-accounts")
     private Optional<String> baseUrl;
+
+    @PostConstruct
+    private void init() {
+        httpClient = ClientBuilder.newClient();
+        //baseUrl = "http://localhost:8081"; // only for demonstration
+    }
+
+    //@Inject
+    //@DiscoverService("smartarticle-users")
+    //private Optional<String> baseUrl;
 
     public List<Institution> getInstitutions() {
         if (appProperties.isExternalServicesEnabled()) {
@@ -63,7 +79,8 @@ public class InstitutionsBean {
         if (institution == null) {
             throw new NotFoundException();
         }
-
+        List<Account> accounts = institutionsBean.getAccounts(institutionId);
+        institution.setAccounts(accounts);
         return institution;
     }
 
@@ -79,6 +96,23 @@ public class InstitutionsBean {
 
         return institution;
     }
+
+    public List<Account> getAccounts(Integer institutionId) {
+        if (baseUrl.isPresent()) {
+            try {
+                return httpClient
+                        .target(baseUrl + "/v1/accounts?where=instituteId:EQ:" + institutionId)
+                        .request().get(new GenericType<List<Account>>() {
+                        });
+            } catch (WebApplicationException | ProcessingException e) {
+                log.severe(e.getMessage());
+                throw new InternalServerErrorException(e);
+            }
+        }
+        return null;
+
+    }
+
 
     public Institution putInstitution(String institutionId, Institution institution) {
 

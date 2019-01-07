@@ -13,8 +13,9 @@ spec:
         app: institution
     spec:
       containers:
-      - image: ajugo/smartarticle-institutions:0.3
+      - image: ajugo/smartarticle-institutions:0.4
         name: institution
+        imagePullPolicy: "Always"
         env:
         - name: KUMULUZEE_DISCOVERY_CLUSTER
           value: gcloud
@@ -25,7 +26,7 @@ spec:
         - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
           value: jdbc:postgresql://institution-db:5432/institution
         - name: KUMULUZEE_SERVER_BASEURL
-          value: http://35.240.79.227:8081
+          value: http://159.122.187.161:30474
         - name: KUMULUZEE_DATASOURCES0_USERNAME
           value: dbuser
         - name: KUMULUZEE_DATASOURCES0_PASSWORD
@@ -42,7 +43,7 @@ kind: Service
 metadata:
   name: institution
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 8081
     protocol: TCP
