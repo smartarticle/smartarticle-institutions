@@ -1,5 +1,5 @@
 kumuluzee:
-  name: smartarticle-instituions
+  name: smartarticle-institutions
   env:
     name: dev
   version: 1.0.0

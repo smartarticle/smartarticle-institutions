@@ -56,4 +56,18 @@ public class InstitutionsResource {
 
         return Response.status(Response.Status.OK).entity(institution).build();
     }
+
+
+    @GET
+    @Path("/info/{institutionId}")
+    public Response getInstitutionData(@PathParam("institutionId") Integer institutionId) {
+
+        Institution institution = institutionsBean.getInstitutionData(institutionId);
+
+        if (institution == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.status(Response.Status.OK).entity(institution).build();
+    }
 }

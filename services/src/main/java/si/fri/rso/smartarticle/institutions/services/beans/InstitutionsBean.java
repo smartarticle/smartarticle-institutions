@@ -45,7 +45,7 @@ public class InstitutionsBean {
 
     @Inject
     @DiscoverService("smartarticle-accounts")
-    private Provider<Optional<String>> institutionBaseProvider;
+    private Provider<Optional<String>> accountBaseProvider;
 
     @PostConstruct
     private void init() {
@@ -85,6 +85,16 @@ public class InstitutionsBean {
         return institution;
     }
 
+    public Institution getInstitutionData(Integer institutionId) {
+
+        Institution institution = em.find(Institution.class, institutionId);
+
+        if (institution == null) {
+            throw new NotFoundException();
+        }
+        return institution;
+    }
+
     public Institution createInstitution(Institution institution) {
 
         try {
@@ -99,7 +109,7 @@ public class InstitutionsBean {
     }
 
     public List<Account> getAccounts(Integer institutionId) {
-        Optional<String> baseUrl = institutionBaseProvider.get();
+        Optional<String> baseUrl = accountBaseProvider.get();
         if (baseUrl.isPresent()) {
             try {
                 String link = baseUrl.get();

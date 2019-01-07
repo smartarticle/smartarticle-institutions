@@ -3,7 +3,6 @@ package si.fri.rso.smartarticle.institutions.models.entities;
 import si.fri.rso.smartarticle.institutions.models.dtos.Account;
 
 import javax.persistence.*;
-import java.time.Instant;
 
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class Institution {
         return country;
     }
 
-    public void setCountry(String title) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
@@ -72,7 +71,7 @@ public class Institution {
         return email;
     }
 
-    public void setEmail(Instant dateOfBirth) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
