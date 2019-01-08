@@ -5,6 +5,7 @@ import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.rso.smartarticle.institutions.models.dtos.Account;
+import si.fri.rso.smartarticle.institutions.models.dtos.Article;
 import si.fri.rso.smartarticle.institutions.models.entities.Institution;
 import si.fri.rso.smartarticle.institutions.services.configuration.AppProperties;
 
@@ -20,6 +21,7 @@ import javax.ws.rs.ProcessingException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.Optional;
@@ -53,9 +55,9 @@ public class InstitutionsBean {
         //baseUrl = "http://localhost:8081"; // only for demonstration
     }
 
-    //@Inject
-    //@DiscoverService("smartarticle-users")
-    //private Optional<String> baseUrl;
+    @Inject
+    @DiscoverService("smartarticle-articles")
+    private Provider<Optional<String>> articleBaseProvider;
 
     public List<Institution> getInstitutions() {
         if (appProperties.isExternalServicesEnabled()) {
@@ -83,6 +85,15 @@ public class InstitutionsBean {
         List<Account> accounts = institutionsBean.getAccounts(institutionId);
         institution.setAccounts(accounts);
         return institution;
+    }
+
+    public List<Article> getArticles(Integer institutionId) {
+        List<Account> accounts = institutionsBean.getAccounts(institutionId);
+        List<Article> newList = new ArrayList<>();
+        for (Account account: accounts) {
+            newList.addAll(institutionsBean.getArticle(account.getId()));
+        }
+        return newList;
     }
 
     public Institution getInstitutionData(Integer institutionId) {
@@ -145,6 +156,25 @@ public class InstitutionsBean {
         }
 
         return institution;
+    }
+
+    public List<Article> getArticle(Integer accountId) {
+        Optional<String> baseUrl = articleBaseProvider.get();
+        if (baseUrl.isPresent()) {
+            try {
+                String link = baseUrl.get();
+                return httpClient
+                        .target(link + "/v1/articles?where=accountId:EQ:" + accountId)
+                        .request().get(new GenericType<List<Article>>() {
+                        });
+            } catch (WebApplicationException | ProcessingException e) {
+                log.severe(e.getMessage());
+                return null;
+                //throw new InternalServerErrorException(e);
+            }
+        }
+        return null;
+
     }
 
     public boolean deleteInstitution(String institutionId) {

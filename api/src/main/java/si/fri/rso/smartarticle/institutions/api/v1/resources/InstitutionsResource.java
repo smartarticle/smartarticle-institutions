@@ -1,5 +1,6 @@
 package si.fri.rso.smartarticle.institutions.api.v1.resources;
 
+import si.fri.rso.smartarticle.institutions.models.dtos.Article;
 import si.fri.rso.smartarticle.institutions.models.entities.Institution;
 import si.fri.rso.smartarticle.institutions.services.beans.InstitutionsBean;
 
@@ -69,5 +70,14 @@ public class InstitutionsResource {
         }
 
         return Response.status(Response.Status.OK).entity(institution).build();
+    }
+
+    @GET
+    @Path("/articles/{institutionId}")
+    public Response getInstitutionArticles(@PathParam("institutionId") Integer institutionId) {
+
+        List<Article> articles = institutionsBean.getArticles(institutionId);
+
+        return Response.ok(articles).build();
     }
 }
