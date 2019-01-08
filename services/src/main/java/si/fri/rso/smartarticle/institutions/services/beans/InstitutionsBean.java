@@ -6,6 +6,7 @@ import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.rso.smartarticle.institutions.models.dtos.Account;
 import si.fri.rso.smartarticle.institutions.models.dtos.Article;
+import si.fri.rso.smartarticle.institutions.models.dtos.Collection;
 import si.fri.rso.smartarticle.institutions.models.entities.Institution;
 import si.fri.rso.smartarticle.institutions.services.configuration.AppProperties;
 
@@ -48,6 +49,10 @@ public class InstitutionsBean {
     @Inject
     @DiscoverService("smartarticle-accounts")
     private Provider<Optional<String>> accountBaseProvider;
+
+    @Inject
+    @DiscoverService("smartarticle-collections")
+    private Provider<Optional<String>> collectionBaseProvider;
 
     @PostConstruct
     private void init() {
@@ -92,6 +97,16 @@ public class InstitutionsBean {
         List<Article> newList = new ArrayList<>();
         for (Account account: accounts) {
             newList.addAll(institutionsBean.getArticle(account.getId()));
+        }
+        return newList;
+    }
+
+
+    public List<Collection> getCollections(Integer institutionId) {
+        List<Account> accounts = institutionsBean.getAccounts(institutionId);
+        List<Collection> newList = new ArrayList<>();
+        for (Account account: accounts) {
+            newList.addAll(institutionsBean.getCollection(account.getId()));
         }
         return newList;
     }
@@ -171,6 +186,25 @@ public class InstitutionsBean {
                 log.severe(e.getMessage());
                 return null;
                 //throw new InternalServerErrorException(e);
+            }
+        }
+        return null;
+
+    }
+
+    public List<Collection> getCollection(Integer accountId) {
+        Optional<String> baseUrl = collectionBaseProvider.get();
+        if (baseUrl.isPresent()) {
+            try {
+                String link = baseUrl.get();
+                return httpClient
+                        .target(link + "/v1/collections?where=accountId:EQ:" + accountId)
+                        .request().get(new GenericType<List<Collection>>() {
+                        });
+            } catch (WebApplicationException | ProcessingException e) {
+                log.severe(e.getMessage());
+                return null;
+                // throw new InternalServerErrorException(e);
             }
         }
         return null;
