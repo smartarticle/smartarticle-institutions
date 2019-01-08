@@ -2,6 +2,8 @@ package si.fri.rso.smartarticle.institutions.api.v1.resources;
 
 import si.fri.rso.smartarticle.institutions.models.dtos.Article;
 import si.fri.rso.smartarticle.institutions.models.dtos.Collection;
+import si.fri.rso.smartarticle.institutions.models.dtos.InstituionArticle;
+import si.fri.rso.smartarticle.institutions.models.dtos.InstitutionCollection;
 import si.fri.rso.smartarticle.institutions.models.entities.Institution;
 import si.fri.rso.smartarticle.institutions.services.beans.InstitutionsBean;
 
@@ -77,7 +79,7 @@ public class InstitutionsResource {
     @Path("/articles/{institutionId}")
     public Response getInstitutionArticles(@PathParam("institutionId") Integer institutionId) {
 
-        List<Article> articles = institutionsBean.getArticles(institutionId);
+        InstituionArticle articles = institutionsBean.getArticles(institutionId);
 
         return Response.ok(articles).build();
     }
@@ -86,7 +88,7 @@ public class InstitutionsResource {
     @Path("/collections/{institutionId}")
     public Response getInstitutionCollections(@PathParam("institutionId") Integer institutionId) {
 
-        List<Collection> articles = institutionsBean.getCollections(institutionId);
+        InstitutionCollection articles = institutionsBean.getCollections(institutionId);
 
         return Response.ok(articles).build();
     }
