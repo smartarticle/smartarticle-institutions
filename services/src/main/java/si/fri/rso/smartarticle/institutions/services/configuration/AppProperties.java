@@ -20,6 +20,9 @@ public class AppProperties {
     @ConfigValue(value = "institute-collection-services.enabled", watch = true)
     private boolean instituteCollectionServicesEnabled;
 
+    @ConfigValue(watch = true)
+    private boolean healthy;
+
     public boolean isInstituteServicesEnabled() {
         return instituteServicesEnabled;
     }
