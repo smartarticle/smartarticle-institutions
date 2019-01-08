@@ -54,4 +54,12 @@ public class AppProperties {
     public void setInstituteCollectionServicesEnabled(boolean instituteCollectionServicesEnabled) {
         this.instituteCollectionServicesEnabled = instituteCollectionServicesEnabled;
     }
+
+    public boolean isHealthy() {
+        return healthy;
+    }
+
+    public void setHealthy(boolean healthy) {
+        this.healthy = healthy;
+    }
 }

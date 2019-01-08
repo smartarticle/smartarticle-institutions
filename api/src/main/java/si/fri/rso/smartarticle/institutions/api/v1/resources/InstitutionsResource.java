@@ -37,10 +37,11 @@ public class InstitutionsResource {
     public Response getInstitutions() {
         if (appProperties.isInstituteServicesEnabled()) {
             List<Institution> institutions = institutionsBean.getInstitutions();
-
+            appProperties.setHealthy(true);
             return Response.ok(institutions).build();
         }
         else{
+            appProperties.setHealthy(true);
             return Response.ok().build();
         }
     }
@@ -52,10 +53,11 @@ public class InstitutionsResource {
             List<Institution> institutions;
 
             institutions = institutionsBean.getInstitutionsFilter(uriInfo);
-
+            appProperties.setHealthy(true);
             return Response.status(Response.Status.OK).entity(institutions).build();
         }
         else{
+            appProperties.setHealthy(true);
             return Response.ok().build();
         }
     }
@@ -67,12 +69,14 @@ public class InstitutionsResource {
             Institution institution = institutionsBean.getInstitution(institutionId);
 
             if (institution == null) {
+                appProperties.setHealthy(true);
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
-
+            appProperties.setHealthy(true);
             return Response.status(Response.Status.OK).entity(institution).build();
         }
         else{
+            appProperties.setHealthy(true);
             return Response.ok().build();
         }
     }
@@ -85,12 +89,14 @@ public class InstitutionsResource {
             Institution institution = institutionsBean.getInstitutionData(institutionId);
 
             if (institution == null) {
+                appProperties.setHealthy(true);
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
-
+            appProperties.setHealthy(true);
             return Response.status(Response.Status.OK).entity(institution).build();
         }
         else{
+            appProperties.setHealthy(true);
             return Response.ok().build();
         }
     }
@@ -100,10 +106,11 @@ public class InstitutionsResource {
     public Response getInstitutionArticles(@PathParam("institutionId") Integer institutionId) {
         if (appProperties.isInstituteServicesEnabled()) {
             InstituionArticle articles = institutionsBean.getArticles(institutionId);
-
+            appProperties.setHealthy(true);
             return Response.ok(articles).build();
         }
         else{
+            appProperties.setHealthy(true);
             return Response.ok().build();
         }
     }
@@ -113,10 +120,11 @@ public class InstitutionsResource {
     public Response getInstitutionCollections(@PathParam("institutionId") Integer institutionId) {
         if (appProperties.isInstituteServicesEnabled()) {
             InstitutionCollection collections = institutionsBean.getCollections(institutionId);
-
+            appProperties.setHealthy(true);
             return Response.ok(collections).build();
         }
         else{
+            appProperties.setHealthy(true);
             return Response.ok().build();
         }
     }

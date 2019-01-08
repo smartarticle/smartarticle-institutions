@@ -79,6 +79,7 @@ public class InstitutionsBean {
         Institution institution = em.find(Institution.class, institutionId);
 
         if (institution == null) {
+            appProperties.setHealthy(false);
             throw new NotFoundException();
         }
         if (appProperties.isInstituteAccountServicesEnabled()){
@@ -126,6 +127,7 @@ public class InstitutionsBean {
         Institution institution = em.find(Institution.class, institutionId);
 
         if (institution == null) {
+            appProperties.setHealthy(false);
             throw new NotFoundException();
         }
         return institution;
@@ -142,6 +144,7 @@ public class InstitutionsBean {
                         });
             } catch (WebApplicationException | ProcessingException e) {
                 log.severe(e.getMessage());
+                appProperties.setHealthy(false);
                 throw new InternalServerErrorException(e);
             }
         }
@@ -161,6 +164,7 @@ public class InstitutionsBean {
                         });
             } catch (WebApplicationException | ProcessingException e) {
                 log.severe(e.getMessage());
+                appProperties.setHealthy(false);
                 throw new InternalServerErrorException(e);
             }
         }
@@ -179,6 +183,7 @@ public class InstitutionsBean {
                         });
             } catch (WebApplicationException | ProcessingException e) {
                 log.severe(e.getMessage());
+                appProperties.setHealthy(false);
                 throw new InternalServerErrorException(e);
             }
         }

@@ -12,14 +12,15 @@ import javax.inject.Inject;
 
 @Health
 @ApplicationScoped
-public class InstitutionServiceHealthCheck implements HealthCheck{
+public class InstitutionServiceHealthCheck implements HealthCheck {
     @Inject
     private AppProperties appProperties;
 
     public HealthCheckResponse call() {
         if (appProperties.isHealthy()) {
-            return  HealthCheckResponse.named(InstitutionServiceHealthCheck.class.getSimpleName()).up().build();
+            return HealthCheckResponse.named(InstitutionServiceHealthCheck.class.getSimpleName()).up().build();
         } else {
-            return  HealthCheckResponse.named(InstitutionServiceHealthCheck.class.getSimpleName()).down().build();
+            return HealthCheckResponse.named(InstitutionServiceHealthCheck.class.getSimpleName()).down().build();
         }
     }
+}
