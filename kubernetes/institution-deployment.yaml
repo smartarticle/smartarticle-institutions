@@ -13,7 +13,7 @@ spec:
         app: institution
     spec:
       containers:
-      - image: ajugo/smartarticle-institutions:0.12
+      - image: ajugo/smartarticle-institutions:0.13
         name: institution
         imagePullPolicy: "Always"
         env:

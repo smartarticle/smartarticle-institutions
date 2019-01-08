@@ -131,7 +131,7 @@ public class InstitutionsBean {
         return institution;
     }
 
-    private List<Account> getAccounts(Integer institutionId) {
+    public List<Account> getAccounts(Integer institutionId) {
         Optional<String> baseUrl = accountBaseProvider.get();
         if (baseUrl.isPresent()) {
             try {
@@ -150,7 +150,7 @@ public class InstitutionsBean {
     }
 
 
-    private List<Article> getArticle(Integer accountId) {
+    public List<Article> getArticle(Integer accountId) {
         Optional<String> baseUrl = articleBaseProvider.get();
         if (baseUrl.isPresent()) {
             try {
@@ -168,7 +168,7 @@ public class InstitutionsBean {
 
     }
 
-    private List<Collection> getCollection(Integer accountId) {
+    public List<Collection> getCollection(Integer accountId) {
         Optional<String> baseUrl = collectionBaseProvider.get();
         if (baseUrl.isPresent()) {
             try {
