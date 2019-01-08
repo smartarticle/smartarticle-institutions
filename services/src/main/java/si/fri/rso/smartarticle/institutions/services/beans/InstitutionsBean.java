@@ -190,8 +190,7 @@ public class InstitutionsBean {
                         });
             } catch (WebApplicationException | ProcessingException e) {
                 log.severe(e.getMessage());
-                return null;
-                //throw new InternalServerErrorException(e);
+                throw new InternalServerErrorException(e);
             }
         }
         return null;
@@ -209,8 +208,7 @@ public class InstitutionsBean {
                         });
             } catch (WebApplicationException | ProcessingException e) {
                 log.severe(e.getMessage());
-                return null;
-                // throw new InternalServerErrorException(e);
+                throw new InternalServerErrorException(e);
             }
         }
         return null;
