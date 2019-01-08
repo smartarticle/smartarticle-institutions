@@ -8,14 +8,47 @@ import javax.enterprise.context.ApplicationScoped;
 @ConfigBundle("app-properties")
 public class AppProperties {
 
-    @ConfigValue(value = "external-services.enabled", watch = true)
-    private boolean externalServicesEnabled;
+    @ConfigValue(value = "institute-services.enabled", watch = true)
+    private boolean instituteServicesEnabled;
 
-    public boolean isExternalServicesEnabled() {
-        return externalServicesEnabled;
+    @ConfigValue(value = "institute-account-services.enabled", watch = true)
+    private boolean instituteAccountServicesEnabled;
+
+    @ConfigValue(value = "institute-article-services.enabled", watch = true)
+    private boolean instituteArticleServicesEnabled;
+
+    @ConfigValue(value = "institute-collection-services.enabled", watch = true)
+    private boolean instituteCollectionServicesEnabled;
+
+    public boolean isInstituteServicesEnabled() {
+        return instituteServicesEnabled;
     }
 
-    public void setExternalServicesEnabled(boolean externalServicesEnabled) {
-        this.externalServicesEnabled = externalServicesEnabled;
+    public void setInstituteServicesEnabled(boolean instituteServicesEnabled) {
+        this.instituteServicesEnabled = instituteServicesEnabled;
+    }
+
+    public boolean isInstituteAccountServicesEnabled() {
+        return instituteAccountServicesEnabled;
+    }
+
+    public void setInstituteAccountServicesEnabled(boolean instituteAccountServicesEnabled) {
+        this.instituteAccountServicesEnabled = instituteAccountServicesEnabled;
+    }
+
+    public boolean isInstituteArticleServicesEnabled() {
+        return instituteArticleServicesEnabled;
+    }
+
+    public void setInstituteArticleServicesEnabled(boolean instituteArticleServicesEnabled) {
+        this.instituteArticleServicesEnabled = instituteArticleServicesEnabled;
+    }
+
+    public boolean isInstituteCollectionServicesEnabled() {
+        return instituteCollectionServicesEnabled;
+    }
+
+    public void setInstituteCollectionServicesEnabled(boolean instituteCollectionServicesEnabled) {
+        this.instituteCollectionServicesEnabled = instituteCollectionServicesEnabled;
     }
 }

@@ -52,22 +52,18 @@ public class InstitutionsBean {
     @DiscoverService("smartarticle-collections")
     private Provider<Optional<String>> collectionBaseProvider;
 
-    @PostConstruct
-    private void init() {
-        httpClient = ClientBuilder.newClient();
-        //baseUrl = "http://localhost:8081"; // only for demonstration
-    }
-
     @Inject
     @DiscoverService("smartarticle-articles")
     private Provider<Optional<String>> articleBaseProvider;
 
+    @PostConstruct
+    private void init() {
+        httpClient = ClientBuilder.newClient();
+    }
+
     public List<Institution> getInstitutions() {
-        if (appProperties.isExternalServicesEnabled()) {
-            TypedQuery<Institution> query = em.createNamedQuery("Institution.getAll", Institution.class);
-            return query.getResultList();
-        }
-        return null;
+        TypedQuery<Institution> query = em.createNamedQuery("Institution.getAll", Institution.class);
+        return query.getResultList();
     }
 
     public List<Institution> getInstitutionsFilter(UriInfo uriInfo) {
@@ -85,36 +81,44 @@ public class InstitutionsBean {
         if (institution == null) {
             throw new NotFoundException();
         }
-        List<Account> accounts = institutionsBean.getAccounts(institutionId);
-        institution.setAccounts(accounts);
+        if (appProperties.isInstituteAccountServicesEnabled()){
+            List<Account> accounts = institutionsBean.getAccounts(institutionId);
+            institution.setAccounts(accounts);
+        }
         return institution;
     }
 
     public InstituionArticle getArticles(Integer institutionId) {
-        Institution institution = institutionsBean.getInstitutionData(institutionId);
-        List<Account> accounts = institutionsBean.getAccounts(institutionId);
-        List<Article> newList = new ArrayList<>();
-        for (Account account: accounts) {
-            newList.addAll(institutionsBean.getArticle(account.getId()));
+        if (appProperties.isInstituteAccountServicesEnabled() && appProperties.isInstituteArticleServicesEnabled()) {
+            Institution institution = institutionsBean.getInstitutionData(institutionId);
+            List<Account> accounts = institutionsBean.getAccounts(institutionId);
+            List<Article> newList = new ArrayList<>();
+            for (Account account : accounts) {
+                newList.addAll(institutionsBean.getArticle(account.getId()));
+            }
+            InstituionArticle instituionArticle = new InstituionArticle();
+            instituionArticle.setInstitution(institution);
+            instituionArticle.setArticles(newList);
+            return instituionArticle;
         }
-        InstituionArticle instituionArticle = new InstituionArticle();
-        instituionArticle.setInstitution(institution);
-        instituionArticle.setArticles(newList);
-        return instituionArticle;
+        return null;
     }
 
 
     public InstitutionCollection getCollections(Integer institutionId) {
-        Institution institution = institutionsBean.getInstitutionData(institutionId);
-        List<Account> accounts = institutionsBean.getAccounts(institutionId);
-        List<Collection> newList = new ArrayList<>();
-        for (Account account: accounts) {
-            newList.addAll(institutionsBean.getCollection(account.getId()));
+        if (appProperties.isInstituteAccountServicesEnabled() && appProperties.isInstituteCollectionServicesEnabled()) {
+            Institution institution = institutionsBean.getInstitutionData(institutionId);
+            List<Account> accounts = institutionsBean.getAccounts(institutionId);
+            List<Collection> newList = new ArrayList<>();
+            for (Account account : accounts) {
+                newList.addAll(institutionsBean.getCollection(account.getId()));
+            }
+            InstitutionCollection instituionCollection = new InstitutionCollection();
+            instituionCollection.setInstitution(institution);
+            instituionCollection.setCollections(newList);
+            return instituionCollection;
         }
-        InstitutionCollection instituionCollection = new InstitutionCollection();
-        instituionCollection.setInstitution(institution);
-        instituionCollection.setCollections(newList);
-        return instituionCollection;
+        return null;
     }
 
     public Institution getInstitutionData(Integer institutionId) {
@@ -127,20 +131,7 @@ public class InstitutionsBean {
         return institution;
     }
 
-    public Institution createInstitution(Institution institution) {
-
-        try {
-            beginTx();
-            em.persist(institution);
-            commitTx();
-        } catch (Exception e) {
-            rollbackTx();
-        }
-
-        return institution;
-    }
-
-    public List<Account> getAccounts(Integer institutionId) {
+    private List<Account> getAccounts(Integer institutionId) {
         Optional<String> baseUrl = accountBaseProvider.get();
         if (baseUrl.isPresent()) {
             try {
@@ -159,27 +150,7 @@ public class InstitutionsBean {
     }
 
 
-    public Institution putInstitution(String institutionId, Institution institution) {
-
-        Institution c = em.find(Institution.class, institutionId);
-
-        if (c == null) {
-            return null;
-        }
-
-        try {
-            beginTx();
-            institution.setId(c.getId());
-            institution = em.merge(institution);
-            commitTx();
-        } catch (Exception e) {
-            rollbackTx();
-        }
-
-        return institution;
-    }
-
-    public List<Article> getArticle(Integer accountId) {
+    private List<Article> getArticle(Integer accountId) {
         Optional<String> baseUrl = articleBaseProvider.get();
         if (baseUrl.isPresent()) {
             try {
@@ -197,7 +168,7 @@ public class InstitutionsBean {
 
     }
 
-    public List<Collection> getCollection(Integer accountId) {
+    private List<Collection> getCollection(Integer accountId) {
         Optional<String> baseUrl = collectionBaseProvider.get();
         if (baseUrl.isPresent()) {
             try {
@@ -213,39 +184,5 @@ public class InstitutionsBean {
         }
         return null;
 
-    }
-
-    public boolean deleteInstitution(String institutionId) {
-
-        Institution institution = em.find(Institution.class, institutionId);
-
-        if (institution != null) {
-            try {
-                beginTx();
-                em.remove(institution);
-                commitTx();
-            } catch (Exception e) {
-                rollbackTx();
-            }
-        } else
-            return false;
-
-        return true;
-    }
-
-
-    private void beginTx() {
-        if (!em.getTransaction().isActive())
-            em.getTransaction().begin();
-    }
-
-    private void commitTx() {
-        if (em.getTransaction().isActive())
-            em.getTransaction().commit();
-    }
-
-    private void rollbackTx() {
-        if (em.getTransaction().isActive())
-            em.getTransaction().rollback();
     }
 }

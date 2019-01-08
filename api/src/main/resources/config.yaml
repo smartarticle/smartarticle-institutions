@@ -20,5 +20,11 @@ kumuluzee:
       etcd:
         hosts: http://159.122.187.161:32428
 app-properties:
-  external-services:
+  institute-services:
+    enabled: true
+  institute-account-services:
+    enabled: true
+  institute-article-services:
+    enabled: true
+  institute-collection-services:
     enabled: true
