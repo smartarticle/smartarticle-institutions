@@ -20,9 +20,14 @@ kumuluzee:
   config:
     etcd:
       hosts: http://159.122.187.161:32428
-    discovery:
-      etcd:
-        hosts: http://159.122.187.161:32428
+  discovery:
+    etcd:
+      hosts: http://159.122.187.161:32428
+  metrics:
+    web-instrumentation:
+    - name: instituionw-endpoint
+      url-pattern: /v1/institutions/*
+
 app-properties:
   institute-services:
     enabled: true

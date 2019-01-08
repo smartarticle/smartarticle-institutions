@@ -4,6 +4,8 @@ package si.fri.rso.smartarticle.institutions.services.beans;
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import si.fri.rso.smartarticle.institutions.models.dtos.*;
 import si.fri.rso.smartarticle.institutions.models.entities.Institution;
 import si.fri.rso.smartarticle.institutions.services.configuration.AppProperties;
@@ -89,6 +91,7 @@ public class InstitutionsBean {
         return institution;
     }
 
+    @Counted(name = "count_instituion_articles", monotonic = true)
     public InstituionArticle getArticles(Integer institutionId) {
         if (appProperties.isInstituteAccountServicesEnabled() && appProperties.isInstituteArticleServicesEnabled()) {
             Institution institution = institutionsBean.getInstitutionData(institutionId);
@@ -106,6 +109,7 @@ public class InstitutionsBean {
     }
 
 
+    @Counted(name = "count_instituion_collections", monotonic = true)
     public InstitutionCollection getCollections(Integer institutionId) {
         if (appProperties.isInstituteAccountServicesEnabled() && appProperties.isInstituteCollectionServicesEnabled()) {
             Institution institution = institutionsBean.getInstitutionData(institutionId);
@@ -133,6 +137,7 @@ public class InstitutionsBean {
         return institution;
     }
 
+    @Counted(name = "count_accounts", monotonic = true)
     public List<Account> getAccounts(Integer institutionId) {
         Optional<String> baseUrl = accountBaseProvider.get();
         if (baseUrl.isPresent()) {
@@ -152,7 +157,7 @@ public class InstitutionsBean {
 
     }
 
-
+    @Timed(name = "time_articles")
     public List<Article> getArticle(Integer accountId) {
         Optional<String> baseUrl = articleBaseProvider.get();
         if (baseUrl.isPresent()) {
@@ -172,6 +177,7 @@ public class InstitutionsBean {
 
     }
 
+    @Timed
     public List<Collection> getCollection(Integer accountId) {
         Optional<String> baseUrl = collectionBaseProvider.get();
         if (baseUrl.isPresent()) {
