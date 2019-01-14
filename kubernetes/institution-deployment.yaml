@@ -13,7 +13,7 @@ spec:
         app: institution
     spec:
       containers:
-      - image: ajugo/smartarticle-institutions:0.15
+      - image: ajugo/smartarticle-institutions:0.16
         name: institution
         imagePullPolicy: "Always"
         env:
@@ -49,7 +49,7 @@ kind: Service
 metadata:
   name: institution
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 8081
     protocol: TCP
