@@ -145,7 +145,7 @@ public class InstitutionsBean {
         else {
             fibonacci(appProperties.getCalculateFibbonaci());
             appProperties.setHealthy(false);
-            throw new NullPointerException();
+            return em.find(Institution.class, institutionId);
         }
     }
 
