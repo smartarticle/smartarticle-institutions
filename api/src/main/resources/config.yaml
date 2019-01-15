@@ -57,4 +57,5 @@ app-properties:
     enabled: true
   institute-collection-services:
     enabled: true
+  calculateFibbonac: 0
   healthy: true

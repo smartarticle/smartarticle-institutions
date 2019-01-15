@@ -23,6 +23,10 @@ public class AppProperties {
     @ConfigValue(watch = true)
     private boolean healthy;
 
+
+    @ConfigValue(value = "calculatefibb", watch = true)
+    private int calculateFibbonaci;
+
     public boolean isInstituteServicesEnabled() {
         return instituteServicesEnabled;
     }
@@ -61,5 +65,13 @@ public class AppProperties {
 
     public void setHealthy(boolean healthy) {
         this.healthy = healthy;
+    }
+
+    public int getCalculateFibbonaci() {
+        return calculateFibbonaci;
+    }
+
+    public void setCalculateFibbonaci(int calculateFibbonaci) {
+        this.calculateFibbonaci = calculateFibbonaci;
     }
 }
