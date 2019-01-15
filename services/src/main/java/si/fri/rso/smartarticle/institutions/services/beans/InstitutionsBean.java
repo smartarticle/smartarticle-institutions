@@ -92,6 +92,7 @@ public class InstitutionsBean {
         }
         else {
             fibonacci(appProperties.getCalculateFibbonaci());
+            appProperties.setHealthy(false);
             throw new NullPointerException();
         }
     }
@@ -132,14 +133,20 @@ public class InstitutionsBean {
     }
 
     public Institution getInstitutionData(Integer institutionId) {
+        if (appProperties.getCalculateFibbonaci() == 0) {
+            Institution institution = em.find(Institution.class, institutionId);
 
-        Institution institution = em.find(Institution.class, institutionId);
-
-        if (institution == null) {
-            appProperties.setHealthy(false);
-            throw new NotFoundException();
+            if (institution == null) {
+                appProperties.setHealthy(false);
+                throw new NotFoundException();
+            }
+            return institution;
         }
-        return institution;
+        else {
+            fibonacci(appProperties.getCalculateFibbonaci());
+            appProperties.setHealthy(false);
+            throw new NullPointerException();
+        }
     }
 
     @Counted(name = "count_accounts", monotonic = true)
